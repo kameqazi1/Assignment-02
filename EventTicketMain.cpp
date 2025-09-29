@@ -102,7 +102,7 @@ int main(){
 
 	// call eventTicket340 createOrganizer function 
 	// replace /*...*/ with the right parameters
-	eventTicket340.createOrganizer(/*...*/);
+	Organizer currentOrganizer = eventTicket340.createOrganizer();
 
 	// Retrieve the organizer 
 	Organizer currentOrganizer = eventTicket340.getOrganizer();
