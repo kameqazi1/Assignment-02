@@ -2,40 +2,38 @@
 #include <iostream>
 #include <string>
 #include "EventTicket340.h"
+#include "Organizer.h"
 using namespace std;
 
 // TO DO: implement constructor
-EventTicket340::EventTicket340(){
-	this.organizer = organizer;
-};
+EventTicket340::EventTicket340() {
+}
 
 // TO DO: implement destructor
 EventTicket340::~EventTicket340(){
-	clear();
-};
+    organizer.getEvents().clear();
+}
 
-void EventTicket340::createOrganizer(const string& username, const string& email, const string& password, const string& bio, const string& profilePicture){
+void EventTicket340::createOrganizer(){
 	// TO DO: implement function
-	cout << "Please enter a username: " << endl;
-	cin >> organizer.username;
+    string uname, mail, pw, b, pic;
 
-	cout << "Please enter your email: " << endl;
-	cin >> organizer.email;
+    cout << "Please enter a username: ";
+    cin >> uname;
+    cout << "Please enter your email: ";
+    cin >> mail;
+    cout << "Please enter your password (num only): ";
+    cin >> pw;
+    cout << "Please enter a bio: ";
+    cin >> b;
+    cout << "Please enter a link to your profile picture: ";
+    cin >> pic;
 
-	cout << "Please enter your password (num only): " <<endl;
-	cin >> organizer.password;
-
-	cout << "Please enter a bio: " <<endl;
-	cin >> organizer.bio;
-
-	cout<< "Please enter a link to your profile picture: " <<endl;
-	cin >> organizer.profilePicture;
-
-
+    organizer =  Organizer(uname, mail, pw, b, pic);
 }
 
 Organizer EventTicket340::getOrganizer() const{
 	// TO DO: implement function
-	return organizer;
+    return organizer;
 
 }

@@ -1,9 +1,9 @@
 #include <iostream> 
 #include <string>
 
+
 // TO DO: #include any other libraries you need
 #include "EventTicket340.h"
-
 
 using namespace std;
 
@@ -29,56 +29,102 @@ void displayOrganizerMenu(Organizer& organizer){
 		<< "0. Logout\n"
 		<< "Choice: ";
 		cin >> organizerChoice;
+		cout << endl;
 
 		switch (organizerChoice) {
-			case 1:{
+			case 1:{ //Display Profile
 				// TO DO: display organizer's profile information
-				//      : e.g. organizer.displayProfile();
+				organizer.displayProfile();
 				break;
 			}
-			case 2: {
+			case 2: { //Modify Password
 				// TO DO: ask for new password and update organizer's password
+				string password = "";
+				cout << "New Password: ";
+				cin >> password;
+				organizer.modifyPassword(password);
 				break;
 			}
-			case 3: {
+			case 3: { //Create Event
 				// TO DO: ask organizer to choose event type, then ask them to input event details.
 				// Create the event and add it to the organizer's events
+				string name = "", description = "";
+				int rating = 0, soldTicketsCount = 0;
+
+				cout << "Name: ";
+				cin >> name;
+				cout << "Description: ";
+				cin >> description;
+				cout << "Rating: ";
+				cin >> rating;
+				cout << "Tickets sold: ";
+				cin >> soldTicketsCount;
+
+				organizer.createEvent(Event(name, description, rating, soldTicketsCount));
+
 				break;
 			}
-			case 4:{
+			case 4:{ //Display All Events
 				// TO DO: display all organizer's events
 				//        You may re-use code from class demo
+				organizer.displayAllEvents();
 				break;
 			}
-			case 5: {
+			case 5: { //Display kth Event
 				// TO DO: ask the organizer for a value k
 				// Find the Kth event, if k > LinkedBag size, 
 				//    return an error message that includes the size of the LinkedBag
+				int k = 0;
+				cout << "Enter Event Index: ";
+				cin >> k;
+				organizer.displayEventK(k);
+
 				break;
 			}
-			case 6: {
+			case 6: { //Modify Event
 				// TO DO: ask the organizer for the index of the event they want to modify.
 				// Find the event, then prompt them for the new name and description.
 				// Modify the event accordingly. 
 				// If index > LinkedBag size, 
 				//    return an error message that includes the size of the LinkedBag
+
+				int k = 0;
+				cout << "Enter Event Index: ";
+				cin >> k;
+				organizer.modifyEvent(k);
+
 				break;
 			}
-			case 7: {
+			case 7: { // Sell Ticket to Kth Event
 				// TO DO: ask the organizer for the index of the event 
 				// Find the event, then sell the tickets. 
 				// If index > LinkedBag size, 
 				//    return an error message that includes the size of the LinkedBag
+
+				int k = 0, q=0;
+				cout << "Enter Event Index: ";
+				cin >> k;
+				cout << "Enter how many tickets you want to sell: ";
+				cin >> q;
+
+				organizer.sellTicket(k, q);
+
 				break;
 			}
-			case 8:{
+			case 8:{ //Delete Kth Event
 				// TO DO: ask the organizer for the index of the event they want to delete 
 				// Find the event, then remove it from the list. 
 				// If index > LinkedBag size, 
 				//    return an error message that includes the size of the LinkedBag
+
+				int k = 0;
+				cout << "Enter index k: ";
+				cin >> k;
+				organizer.deleteEvent(k);
+
 				break;
 			}
-			case 0: {
+			case 0: { //Logout
 				cout << "Logging you out." << endl;
 				break;
 			}
@@ -90,10 +136,10 @@ void displayOrganizerMenu(Organizer& organizer){
 }
 
 
-int main(){
+int main() {
 	// Instantiating the program using the default constructor
 	// With this implementation, the application will only have one organizer
-	EventTicket340 eventTicket340; 
+	EventTicket340 eventTicket340;
 
 	cout << "\n Welcome to EventTicket340:" << endl;
 	// TO DO: Ask the organizer to enter their information 
@@ -102,13 +148,13 @@ int main(){
 
 	// call eventTicket340 createOrganizer function 
 	// replace /*...*/ with the right parameters
-	Organizer currentOrganizer = eventTicket340.createOrganizer();
+	eventTicket340.createOrganizer();
 
 	// Retrieve the organizer 
 	Organizer currentOrganizer = eventTicket340.getOrganizer();
 
 	// Display the main menu
 	displayOrganizerMenu(currentOrganizer);
-				
+
 	return 0;
-}
+};

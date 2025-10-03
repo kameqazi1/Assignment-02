@@ -11,6 +11,27 @@
 
 // Assignment 2 functions -------------------------------------------
 // TO DO: implement the two functions here
+template<class ItemType>
+bool LinkedBag<ItemType>::reverseAppendK(const ItemType& newEntry, const int& k) {
+	return true; // PLACEHOLDER.
+}
+template<class ItemType>
+Node<ItemType>* LinkedBag<ItemType>::findKthItem(const int& indexK) const {
+	if (indexK < 0 || indexK >= itemCount) {
+		return nullptr;  // out of range
+	}
+
+	Node<ItemType>* curPtr = headPtr;
+	int counter = 0;
+
+	while (curPtr != nullptr && counter < indexK) {
+		curPtr = curPtr->getNext();
+		counter++;
+	}
+
+	return curPtr; // will be the k-th node or nullptr if not found
+}
+
 
 // ------------------------------------------------------------------
 
@@ -58,7 +79,6 @@ template<class ItemType>
 LinkedBag<ItemType>::~LinkedBag(){
 	clear();
 }  // end destructor
-
 
 template<class ItemType>
 bool LinkedBag<ItemType>::isEmpty() const{
