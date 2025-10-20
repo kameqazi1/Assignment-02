@@ -13,7 +13,8 @@ Organizer::Organizer(const std::string& username, const std::string& email, cons
 	username(username), email(email), password(password), bio(bio), profilePicture(profilePicture) {
 }
 
-Organizer::~Organizer() {}
+Organizer::~Organizer() {
+}
 
 bool Organizer::modifyPassword(const std::string& newPassword){
 	password = newPassword;
@@ -28,57 +29,78 @@ void Organizer::displayProfile() {
 	cout << "Picture: " << profilePicture << endl;
 }
 
-bool Organizer::createEvent(const Event& event){
-	events.add(event);
-	return true;
+bool Organizer::createEvent( Event* event){
+	return events.add(event);
 }
 
 void Organizer::displayEventK(const int& k) const {
-	Node<Event>* nodePtr = events.findKthItem(k);
+	Node<Event*>* nodePtr = events.findKthItem(k);
 
 	if (nodePtr != nullptr) {
-		Event e = nodePtr->getItem();
-		e.display();
+		Event* e = nodePtr->getItem();  // getItem() returns Event*
+		if (e != nullptr) {
+			e->display();               // use -> since e is a pointer
+		}
+		else {
+			cout << "Error: null event pointer at index " << k << "!\n";
+		}
 	}
 	else {
 		cout << "Error, no event at that index!\n";
-		cout << "Event list size is only " << events.getCurrentSize() << " index scope (0, " << events.getCurrentSize()-1 << ")\n";
+		cout << "Event list size is only "
+			<< events.getCurrentSize()
+			<< " index scope (0, " << events.getCurrentSize() - 1 << ")\n";
 	}
 }
 
 void Organizer::displayAllEvents() const {
-	vector<Event> items = events.toVector();
+	vector<Event*> items = events.toVector();  // vector of pointers
 	int counter = 0;
-	cout << "Event List: \n" << endl;
-	for (const Event& item : items) {
-		cout << "Event #" << counter << ":" << endl;
-		item.display();
-		cout << endl;
+
+	cout << "Event List:\n" << endl;
+
+	for (const Event* item : items) {          // each item is a pointer
+		if (item != nullptr) {
+			cout << "Event #" << counter << ":\n";
+			item->display();                   // use -> since it's a pointer
+			cout << endl;
+		}
+		else {
+			cout << "Event #" << counter << ": [null pointer]\n\n";
+		}
 		counter++;
 	}
 }
 
 bool Organizer::modifyEvent(const int& k) {
-	Node<Event>* nodePtr = events.findKthItem(k);
+	Node<Event*>* nodePtr = events.findKthItem(k);
 	if (nodePtr != nullptr) {
-		Event e = nodePtr->getItem(); // copy
-		e.modify();                    // modify copy
-		nodePtr->setItem(e);
-		cout << "Successfully modified event" << endl;
+		Event* e = nodePtr->getItem();   // get pointer to original event
+		if (e != nullptr) {
+			e->modify();                 // modify the actual event
+			cout << "Successfully modified event" << endl;
+		}
+		else {
+			cout << "Error: null event pointer at index " << k << "!\n";
+			return false;
+		}
 	}
 	else {
 		cout << "Error, no event at that index!\n";
-		cout << "Event list size is only " << events.getCurrentSize() << " index scope (0, " << events.getCurrentSize() - 1 << ")\n";
+		cout << "Event list size is only "
+			<< events.getCurrentSize()
+			<< " index scope (0, " << events.getCurrentSize() - 1 << ")\n";
+		return false;
 	}
 
-	return nodePtr != nullptr;
+	return true;
 }
 
 bool Organizer::sellTicket(const int& k, const int& quantity) {
-	Node<Event>* nodePtr = events.findKthItem(k);
+	Node<Event*>* nodePtr = events.findKthItem(k);
 	if (nodePtr != nullptr) {
-		Event e = nodePtr->getItem(); // copy
-		e.sell(quantity);                    // modify copy
+		Event* e = nodePtr->getItem(); // copy
+		e->sell(quantity);                    // modify copy
 		nodePtr->setItem(e);
 	}
 	else {
@@ -90,7 +112,7 @@ bool Organizer::sellTicket(const int& k, const int& quantity) {
 }
 
 bool Organizer::deleteEvent(const int& k) {
-	Node<Event>* nodePtr = events.findKthItem(k);
+	Node<Event*>* nodePtr = events.findKthItem(k);
 	if (nodePtr != nullptr) {
 		events.remove(nodePtr->getItem()); // remove event
 		cout << "Successfully removed event." << endl;
@@ -101,6 +123,18 @@ bool Organizer::deleteEvent(const int& k) {
 	}
 
 	return nodePtr != nullptr;
+};
+
+bool Organizer::reverseAppendEventK(Event* newEvent, const int& k) {
+	if (events.reverseAppendK(newEvent, k)) {    // calls LinkedBag’s function
+		cout << "Successfully inserted event after " << k << "th-from-end.\n";
+		return true;
+	}
+	else {
+		cout << "Error: invalid index ("
+			<< k << "). Bag size is " << events.getCurrentSize() << ".\n";
+		return false;
+	}
 }
 
 
@@ -111,7 +145,7 @@ bool Organizer::operator==(const Organizer& otherOrganizer) const {
 
 //Getters
 
-LinkedBag<Event> Organizer::getEvents() {
+LinkedBag<Event*> Organizer::getEvents() {
 	return events;
 }
 

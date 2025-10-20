@@ -26,6 +26,7 @@ void displayOrganizerMenu(Organizer& organizer){
 		<< "6. Modify Event\n"
 		<< "7. Sell Tickets\n"
 		<< "8. Delete Event\n"
+		<< "9. Reverse Append Event K\n"
 		<< "0. Logout\n"
 		<< "Choice: ";
 		cin >> organizerChoice;
@@ -48,19 +49,104 @@ void displayOrganizerMenu(Organizer& organizer){
 			case 3: { //Create Event
 				// TO DO: ask organizer to choose event type, then ask them to input event details.
 				// Create the event and add it to the organizer's events
-				string name = "", description = "";
-				int rating = 0, soldTicketsCount = 0;
+				string name = "", description = "", venue = "", dateTime = "", streamLink = "", audience = "";
+				int rating = 0, soldTicketsCount = 0, capacity = 0, eventChoice = 0, k = 0;
 
-				cout << "Name: ";
-				cin >> name;
-				cout << "Description: ";
-				cin >> description;
-				cout << "Rating: ";
-				cin >> rating;
-				cout << "Tickets sold: ";
-				cin >> soldTicketsCount;
+				cout << "Which type of Event:  \n"
+					<< "1. Virtual Event \n"
+					<< "2. Venue Event \n"
+					<< "Choice: ";
+				cin >> eventChoice;
+				cout << endl;
+				switch(eventChoice) {
+					case 1: {
+						cin.ignore();
+						cout << "Name: ";
+						getline(cin, name);
+						cout << "Description: ";
+						getline(cin, description);
+						cout << "Rating: ";
+						while (!(cin >> rating)) {        // try to read a number
+							cout << "Invalid input. Please enter a number rating: ";
+							cin.clear();                  // clear the error flag
+							cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
+						}
+						cout << "Tickets sold: ";
+						while (!(cin >> soldTicketsCount)) {        // try to read a number
+							cout << "Invalid input. Please enter a number ticket count: ";
+							cin.clear();                  // clear the error flag
+							cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
+						}
+						cout << "Enter new stream link: ";
+						cin.ignore();
+						getline(cin, streamLink);
+						cout << "Enter new audience: ";
+						getline(cin, audience);
+						Event* virtualEPtr = new VirtualEvent(name, description, rating, soldTicketsCount, streamLink, audience);
 
-				organizer.createEvent(Event(name, description, rating, soldTicketsCount));
+						cout << "Where would you like to enter this Event: ";
+						while (!(cin >> k)) {        // try to read a number
+							cout << "Invalid input. Please enter a number Rating: ";
+							cin.clear();                  // clear the error flag
+							cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
+						}
+
+						organizer.reverseAppendEventK(virtualEPtr, k);
+						break;
+					}
+					case 2: {
+						cin.ignore();
+						cout << "Name: ";
+						getline(cin, name);
+						cout << "Description: ";
+						getline(cin, description);
+
+						cout << "Rating: ";
+						while (!(cin >> rating)) {        // try to read a number
+							cout << "Invalid input. Please enter a number Rating: ";
+							cin.clear();                  // clear the error flag
+							cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
+						}
+
+						cout << "Tickets sold: ";
+						while (!(cin >> soldTicketsCount)) {        // try to read a number
+							cout << "Invalid input. Please enter a number ticket count: ";
+							cin.clear();                  // clear the error flag
+							cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
+						}
+
+						cout << "Capacity: ";
+						while (!(cin >> capacity)) {        // try to read a number
+							cout << "Invalid input. Please enter a number capacity: ";
+							cin.clear();                  // clear the error flag
+							cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
+						}
+
+						cout << "Venue: ";
+						cin.ignore();
+						getline(cin, venue);
+						cout << "Date and Time: ";
+						getline(cin, dateTime);
+
+						Event* venueEPtr = new VenueEvent(name, description, rating, soldTicketsCount, capacity, venue, dateTime);
+
+						cout << "Where would you like to enter this Event: ";
+						while (!(cin >> k)) {        // try to read a number
+							cout << "Invalid input. Please enter a number Rating: ";
+							cin.clear();                  // clear the error flag
+							cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
+						}
+
+						organizer.reverseAppendEventK(venueEPtr, k);
+						break;
+					}
+					default: {
+						cout << "Invalid choice";
+
+						break;
+					}
+				}
+
 
 				break;
 			}
@@ -122,6 +208,98 @@ void displayOrganizerMenu(Organizer& organizer){
 				cin >> k;
 				organizer.deleteEvent(k);
 
+				break;
+			}
+			case 9: {
+				string name = "", description = "", venue = "", dateTime = "", streamLink = "", audience = "";
+				int rating = 0, soldTicketsCount = 0, capacity = 0, eventChoice = 0, k = 0;
+				cout << "which index K would you like to reverse append from: ";
+				cin >> k;
+
+				cout << "Which type of Event:  \n"
+					<< "1. Virtual Event \n"
+					<< "2. Venue Event \n"
+					<< "Choice: ";
+				while (!(cin >> eventChoice)) {        // try to read a number
+					cout << "Invalid input. Please enter a number rating: ";
+					cin.clear();                  // clear the error flag
+					cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
+				}
+				cout << endl;
+				switch (eventChoice) {
+				case 1: {
+					cin.ignore();
+					cout << "Name: ";
+					getline(cin, name);
+					cout << "Description: ";
+					getline(cin, description);
+					cout << "Rating: ";
+					while (!(cin >> rating)) {        // try to read a number
+						cout << "Invalid input. Please enter a number rating: ";
+						cin.clear();                  // clear the error flag
+						cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
+					}
+					cout << "Tickets sold: ";
+					while (!(cin >> soldTicketsCount)) {        // try to read a number
+						cout << "Invalid input. Please enter a number ticket count: ";
+						cin.clear();                  // clear the error flag
+						cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
+					}
+					cout << "Enter new stream link: ";
+					cin.ignore();
+					getline(cin, streamLink);
+					cout << "Enter new audience: ";
+					getline(cin, audience);
+					Event* virtualEPtr = new VirtualEvent(name, description, rating, soldTicketsCount, streamLink, audience);
+
+					organizer.reverseAppendEventK(virtualEPtr, k);
+					break;
+				}
+				case 2: {
+					cin.ignore();
+					cout << "Name: ";
+					getline(cin, name);
+					cout << "Description: ";
+					getline(cin, description);
+
+					cout << "Rating: ";
+					while (!(cin >> rating)) {        // try to read a number
+						cout << "Invalid input. Please enter a number Rating: ";
+						cin.clear();                  // clear the error flag
+						cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
+					}
+
+					cout << "Tickets sold: ";
+					while (!(cin >> soldTicketsCount)) {        // try to read a number
+						cout << "Invalid input. Please enter a number ticket count: ";
+						cin.clear();                  // clear the error flag
+						cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
+					}
+
+					cout << "Capacity: ";
+					while (!(cin >> capacity)) {        // try to read a number
+						cout << "Invalid input. Please enter a number capacity: ";
+						cin.clear();                  // clear the error flag
+						cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
+					}
+
+					cout << "Venue: ";
+					cin.ignore();
+					getline(cin, venue);
+					cout << "Date and Time: ";
+					getline(cin, dateTime);
+
+					Event* venueEPtr = new VenueEvent(name, description, rating, soldTicketsCount, capacity, venue, dateTime);
+
+					organizer.reverseAppendEventK(venueEPtr, k);
+					break;
+				}
+				default: {
+					cout << "Invalid choice";
+
+					break;
+				}
+				}
 				break;
 			}
 			case 0: { //Logout

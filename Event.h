@@ -24,7 +24,7 @@ public:
 	
 	virtual bool modify();
 
-	virtual bool sell(const int& qunantity);
+	virtual bool sell(const int& quantity);
 
 	// This is a function that allows you to compare two organizers based on their username and email address.  
 	// You may directly include it in your class definition. 

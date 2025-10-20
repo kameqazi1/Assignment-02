@@ -13,8 +13,36 @@
 // TO DO: implement the two functions here
 template<class ItemType>
 bool LinkedBag<ItemType>::reverseAppendK(const ItemType& newEntry, const int& k) {
-	return true; // PLACEHOLDER.
+	
+	// If k is out of range, insert at the beginning
+	if (k <= 0 || k > itemCount + 1) {
+		Node<ItemType>* newNodePtr = new Node<ItemType>(newEntry);
+
+		newNodePtr->setNext(headPtr);
+		headPtr = newNodePtr;
+		itemCount++;
+		return true;
+	}
+	
+
+	int targetIndex = itemCount - k - 1; 
+	Node<ItemType>* prevPtr = nullptr;
+	Node<ItemType>* curPtr = headPtr;
+
+	for (int i = 0; i < targetIndex; ++i) {
+		prevPtr = curPtr;
+		curPtr = curPtr->getNext();
+	}
+
+	Node<ItemType>* newNodePtr = new Node<ItemType>(newEntry);
+
+	newNodePtr->setNext(curPtr->getNext());
+	curPtr->setNext(newNodePtr);
+
+	itemCount++;
+	return true;
 }
+
 template<class ItemType>
 Node<ItemType>* LinkedBag<ItemType>::findKthItem(const int& indexK) const {
 	if (indexK < 0 || indexK >= itemCount) {

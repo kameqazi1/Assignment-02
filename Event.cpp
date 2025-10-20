@@ -44,7 +44,7 @@ bool Event::modify() {
 bool Event::sell(const int& quantity){
 	soldTicketsCount += quantity;
 	return true; 
-	}
+}
 
 // ------------------------------------------------------------------------------
 // Operator overloading implementation

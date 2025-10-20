@@ -19,15 +19,15 @@ void EventTicket340::createOrganizer(){
     string uname, mail, pw, b, pic;
 
     cout << "Please enter a username: ";
-    cin >> uname;
+    getline(cin, uname);
     cout << "Please enter your email: ";
-    cin >> mail;
+    getline(cin, mail);
     cout << "Please enter your password (num only): ";
-    cin >> pw;
+    getline(cin, pw);
     cout << "Please enter a bio: ";
-    cin >> b;
+    getline(cin, b);
     cout << "Please enter a link to your profile picture: ";
-    cin >> pic;
+    getline(cin, pic);
 
     organizer =  Organizer(uname, mail, pw, b, pic);
 }
