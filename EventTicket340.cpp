@@ -16,24 +16,17 @@ EventTicket340::~EventTicket340(){
 
 void EventTicket340::createOrganizer(){
 	// TO DO: implement function
-    string uname, mail, pw, b, pic;
-
-    cout << "Please enter a username: ";
-    getline(cin, uname);
-    cout << "Please enter your email: ";
-    getline(cin, mail);
-    cout << "Please enter your password (num only): ";
-    getline(cin, pw);
-    cout << "Please enter a bio: ";
-    getline(cin, b);
-    cout << "Please enter a link to your profile picture: ";
-    getline(cin, pic);
-
-    organizer =  Organizer(uname, mail, pw, b, pic);
+	cin >> organizer;
 }
 
 Organizer EventTicket340::getOrganizer() const{
 	// TO DO: implement function
     return organizer;
 
+}
+
+// output overloading
+std::ostream& operator<<(std::ostream& out, const EventTicket340& ticket) {
+	out << " Welcome to EventTicket340:";
+	return out;
 }

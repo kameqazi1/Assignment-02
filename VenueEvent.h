@@ -3,6 +3,7 @@
 
 // TO DO: #include all the standard libraries and your own libraries here
 #include <string>
+#include <iostream>
 #include "Event.h"
 
 // To DO: define the class Organizer with the necessary functions and data fields
@@ -25,6 +26,10 @@ public:
 	bool modify();
 
 	bool sell(const int& qunantity);
+
+	// functions for operator overloading
+	friend std::ostream& operator<<(std::ostream& out, const VenueEvent& event);
+	friend std::istream& operator>>(std::istream& in, VenueEvent& event);
 
 };
 

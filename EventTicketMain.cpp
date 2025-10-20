@@ -319,7 +319,7 @@ int main() {
 	// With this implementation, the application will only have one organizer
 	EventTicket340 eventTicket340;
 
-	cout << "\n Welcome to EventTicket340:" << endl;
+	cout << "\n" << eventTicket340 << endl;
 	// TO DO: Ask the organizer to enter their information 
 	//        Instantiate a new Organizer object
 

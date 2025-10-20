@@ -3,6 +3,7 @@
 
 // TO DO: #include all the standard libraries and your own libraries here
 #include <string>
+#include <iostream>
 #include "Event.h"
 #include "VirtualEvent.h"
 #include "VenueEvent.h"
@@ -56,6 +57,10 @@ public:
 	// You don't need to modify it but will have to put it inside your class. 
 	// Operator == overloading function prototype:
 	bool operator==(const Organizer& otherOrganizer) const;
+
+	//functions for operator overloading
+	friend std::ostream& operator<<(std::ostream& out, const Organizer& organizer);
+	friend std::istream& operator>>(std::istream& in, Organizer& organizer);
 
 };
 #endif

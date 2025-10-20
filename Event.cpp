@@ -52,6 +52,28 @@ bool Event::operator==(const Event& otherEvent) const {
 	return Event::name == otherEvent.name;
 }
 
+// output operator overloading
+std::ostream& operator<<(std::ostream& out, const Event& event) {
+	out << "Event Name: " << event.name << "\n"
+	 << "Description: " << event.description << "\n"
+	 << "Rating: " << event.rating << "\n"
+	 << "Tickets Sold: " << event.soldTicketsCount << endl;
+	return out;
+}
+
+// input operator overloading
+std::istream& operator>>(std::istream& in, Event& event) {
+	cout << "Enter new name: ";
+	in >> event.name;
+	cout << "Enter new description: ";
+	in >> event.description;
+	cout << "Enter new rating: ";
+	in >> event.rating;
+	cout << "Enter new ticket sold count: ";
+	in >> event.soldTicketsCount;
+	return in;
+}
+
 
 
 

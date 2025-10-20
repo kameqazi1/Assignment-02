@@ -23,10 +23,7 @@ bool Organizer::modifyPassword(const std::string& newPassword){
 }
 
 void Organizer::displayProfile() {
-	cout << "Username: " << username << endl;
-	cout << "Email: " << email << endl;
-	cout << "Bio: " << bio << endl;
-	cout << "Picture: " << profilePicture << endl;
+	cout << *this;
 }
 
 bool Organizer::createEvent( Event* event){
@@ -126,7 +123,7 @@ bool Organizer::deleteEvent(const int& k) {
 };
 
 bool Organizer::reverseAppendEventK(Event* newEvent, const int& k) {
-	if (events.reverseAppendK(newEvent, k)) {    // calls LinkedBag’s function
+	if (events.reverseAppendK(newEvent, k)) {    // calls LinkedBagï¿½s function
 		cout << "Successfully inserted event after " << k << "th-from-end.\n";
 		return true;
 	}
@@ -158,4 +155,28 @@ std::string Organizer::getUsername() {
 }
 Organizer Organizer::getOrganizer() {
 	return *(this);
+}
+
+// output overloading
+std::ostream& operator<<(std::ostream& out, const Organizer& organizer) {
+	out << "Username: " << organizer.username << endl;
+	out << "Email: " << organizer.email << endl;
+	out << "Bio: " << organizer.bio << endl;
+	out << "Picture: " << organizer.profilePicture << endl;
+	return out;
+}
+
+// input overloading
+std::istream& operator>>(std::istream& in, Organizer& organizer) {
+	cout << "Please enter a username: ";
+	getline(in, organizer.username);
+	cout << "Please enter your email: ";
+	getline(in, organizer.email);
+	cout << "Please enter your password (num only): ";
+	getline(in, organizer.password);
+	cout << "Please enter a bio: ";
+	getline(in, organizer.bio);
+	cout << "Please enter a link to your profile picture: ";
+	getline(in, organizer.profilePicture);
+	return in;
 }

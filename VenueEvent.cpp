@@ -65,3 +65,34 @@ bool VenueEvent::sell(const int& quantity) {
 	
 	return true;
 }
+
+// output overloading
+std::ostream& operator<<(std::ostream& out, const VenueEvent& event) {
+	out << "Event Name: " << event.name << "\n"
+		<< "Description: " << event.description << "\n"
+		<< "Rating: " << event.rating << "\n"
+		<< "Tickets Sold: " << event.soldTicketsCount << "\n"
+		<< "Capacity: " << event.capacity << "\n"
+		<< "Venue: " << event.venue << "\n"
+		<< "Date and Time: " << event.dateTime << endl;
+	return out;
+}
+
+// input overloading
+std::istream& operator>>(std::istream& in, VenueEvent& event) {
+	cout << "Enter new name: ";
+	in >> event.name;
+	cout << "Enter new description: ";
+	in >> event.description;
+	cout << "Enter new rating: ";
+	in >> event.rating;
+	cout << "Enter new ticket sold count: ";
+	in >> event.soldTicketsCount;
+	cout << "Enter new ticket capacity: ";
+	in >> event.capacity;
+	cout << "Enter new venue: ";
+	in >> event.venue;
+	cout << "Enter date and time: ";
+	in >> event.dateTime;
+	return in;
+}

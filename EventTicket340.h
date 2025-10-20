@@ -4,6 +4,7 @@
 
 
 #include <string>
+#include <iostream>
 // TO DO include necessary libraries
 #include "Organizer.h"
  
@@ -27,5 +28,8 @@ class EventTicket340 {
 
 		// Retrieve the organizer object
 		Organizer getOrganizer() const;
+
+		// function for operator overloading
+		friend std::ostream& operator<<(std::ostream& out, const EventTicket340& ticket);
 };
 #endif
