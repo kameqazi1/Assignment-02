@@ -20,6 +20,8 @@ public:
 	VenueEvent();
 	VenueEvent(std::string& name, std::string& description, int& rating, int& soldTicketsCount, int& capacity, std::string& venue, std::string& dateTime);
 	~VenueEvent();
+	VenueEvent(const VenueEvent& other);
+    VenueEvent& operator=(const VenueEvent& other);
 
 	void display() const;
 

@@ -13,6 +13,25 @@ Event::Event(std::string& name, std::string& description, int& rating, int& sold
 
 Event::~Event() {}
 
+// Copy constructor
+Event::Event(const Event& other)
+    : name(other.name),
+      description(other.description),
+      rating(other.rating),
+      soldTicketsCount(other.soldTicketsCount)
+{}
+
+// Assignment operator
+Event& Event::operator=(const Event& other) {
+    if (this != &other) { 
+        name = other.name;
+        description = other.description;
+        rating = other.rating;
+        soldTicketsCount = other.soldTicketsCount;
+    }
+    return *this;
+}
+
 
 void Event::display() const {
 	cout << "Event Name: " << name << "\n"

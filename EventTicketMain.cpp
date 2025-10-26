@@ -1,5 +1,6 @@
 #include <iostream> 
 #include <string>
+#include <memory>
 
 
 // TO DO: #include any other libraries you need
@@ -82,7 +83,7 @@ void displayOrganizerMenu(Organizer& organizer){
 						getline(cin, streamLink);
 						cout << "Enter new audience: ";
 						getline(cin, audience);
-						Event* virtualEPtr = new VirtualEvent(name, description, rating, soldTicketsCount, streamLink, audience);
+						std::shared_ptr<Event> virtualEPtr = std::make_shared<VirtualEvent>(name, description, rating, soldTicketsCount, streamLink, audience);
 
 						cout << "Where would you like to enter this Event: ";
 						while (!(cin >> k)) {        // try to read a number
@@ -128,7 +129,7 @@ void displayOrganizerMenu(Organizer& organizer){
 						cout << "Date and Time: ";
 						getline(cin, dateTime);
 
-						Event* venueEPtr = new VenueEvent(name, description, rating, soldTicketsCount, capacity, venue, dateTime);
+						std::shared_ptr<Event> venueEPtr = std::make_shared<VenueEvent>(name, description, rating, soldTicketsCount, capacity, venue, dateTime);
 
 						cout << "Where would you like to enter this Event: ";
 						while (!(cin >> k)) {        // try to read a number
@@ -250,7 +251,7 @@ void displayOrganizerMenu(Organizer& organizer){
 					getline(cin, streamLink);
 					cout << "Enter new audience: ";
 					getline(cin, audience);
-					Event* virtualEPtr = new VirtualEvent(name, description, rating, soldTicketsCount, streamLink, audience);
+					std::shared_ptr<Event> virtualEPtr = std::make_shared<VirtualEvent>(name, description, rating, soldTicketsCount, streamLink, audience);
 
 					organizer.reverseAppendEventK(virtualEPtr, k);
 					break;
@@ -289,7 +290,7 @@ void displayOrganizerMenu(Organizer& organizer){
 					cout << "Date and Time: ";
 					getline(cin, dateTime);
 
-					Event* venueEPtr = new VenueEvent(name, description, rating, soldTicketsCount, capacity, venue, dateTime);
+					std::shared_ptr<Event> venueEPtr = std::make_shared<VenueEvent>(name, description, rating, soldTicketsCount, capacity, venue, dateTime);
 
 					organizer.reverseAppendEventK(venueEPtr, k);
 					break;

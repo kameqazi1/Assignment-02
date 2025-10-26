@@ -22,6 +22,8 @@ class EventTicket340 {
 	public:
 		EventTicket340();
 		~EventTicket340();
+		EventTicket340(const EventTicket340& other);
+		EventTicket340& operator=(const EventTicket340& other);
 
 		// Create a new organizer profile
 		void createOrganizer();

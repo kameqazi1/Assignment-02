@@ -4,6 +4,7 @@
 // TO DO: #include all the standard libraries and your own libraries here
 #include <string>
 #include <iostream>
+#include <memory>
 #include "Event.h"
 #include "VirtualEvent.h"
 #include "VenueEvent.h"
@@ -19,19 +20,21 @@ protected:
 	std::string password;
 	std::string bio;
 	std::string profilePicture;
-	LinkedBag<Event*> events;
+	LinkedBag<std::shared_ptr<Event>> events;
 
 public:
 
 	Organizer();
 	Organizer(const std::string& username, const std::string& email, const std::string& password, const std::string& bio, const std::string& profilePicture);
-	~Organizer();
+	~Organizer(); 								  // Destructor
+	Organizer(const Organizer& other);            // Copy constructor
+    Organizer& operator=(const Organizer& other); // Copy assignment operator
 
 	void displayProfile();
 
 	bool modifyPassword(const std::string& newPassword);
 
-	bool createEvent( Event* event);
+	bool createEvent( std::shared_ptr<Event> event);
 
 	void displayEventK(const int& k) const;
 
@@ -43,11 +46,11 @@ public:
 
 	bool deleteEvent(const int& k);
 
-	bool reverseAppendEventK(Event* newEvent, const int& k);
+	bool reverseAppendEventK(std::shared_ptr<Event> newEvent, const int& k);
 
 
 	//Added Getters
-	LinkedBag<Event*> getEvents();
+	LinkedBag<std::shared_ptr<Event>> getEvents();
 	int getEventListSize();
 	std::string getUsername();
 	Organizer getOrganizer();

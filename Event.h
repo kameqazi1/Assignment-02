@@ -20,6 +20,8 @@ public:
 	Event();
 	Event(std::string& name, std::string& description, int& rating, int& soldTicketsCount);
 	~Event();
+    Event(const Event& other);
+    Event& operator=(const Event& other);
 
 	virtual void display() const;
 	

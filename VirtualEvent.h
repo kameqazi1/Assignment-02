@@ -19,6 +19,8 @@ public:
 	VirtualEvent();
 	VirtualEvent(std::string& name, std::string& description, int& rating, int& soldTicketsCount, std::string& streamLink, std::string& audience);
 	~VirtualEvent();
+	VirtualEvent(const VirtualEvent& other);
+	VirtualEvent& operator=(const VirtualEvent& other);
 
 	void display() const;
 

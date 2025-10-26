@@ -1,8 +1,5 @@
 #include <iostream> 
 #include <string>
-
-
-// TO DO: #include any other libraries you need
 #include "VenueEvent.h"
 
 using namespace std;
@@ -13,6 +10,25 @@ VenueEvent::VenueEvent(std::string& name, std::string& description, int& rating,
 	Event(name, description, rating, soldTicketsCount), capacity(capacity), venue(venue), dateTime(dateTime) {
 }
 VenueEvent::~VenueEvent() {}
+
+// Copy constructor
+VenueEvent::VenueEvent(const VenueEvent& other)
+    : Event(other),   
+      capacity(other.capacity),
+      venue(other.venue),
+      dateTime(other.dateTime)
+{}
+
+// Assignment operator
+VenueEvent& VenueEvent::operator=(const VenueEvent& other) {
+    if (this != &other) {          
+        Event::operator=(other);   
+        capacity = other.capacity;
+        venue = other.venue;
+        dateTime = other.dateTime;
+    }
+    return *this;
+}
 
 void VenueEvent::display() const {
 	cout << "Event Name: " << name << "\n"
