@@ -13,6 +13,25 @@ Event::Event(std::string& name, std::string& description, int& rating, int& sold
 
 Event::~Event() {}
 
+// Copy constructor
+Event::Event(const Event& other)
+    : name(other.name),
+      description(other.description),
+      rating(other.rating),
+      soldTicketsCount(other.soldTicketsCount)
+{}
+
+// Assignment operator
+Event& Event::operator=(const Event& other) {
+    if (this != &other) { 
+        name = other.name;
+        description = other.description;
+        rating = other.rating;
+        soldTicketsCount = other.soldTicketsCount;
+    }
+    return *this;
+}
+
 
 void Event::display() const {
 	cout << "Event Name: " << name << "\n"
@@ -50,6 +69,28 @@ bool Event::sell(const int& quantity){
 // Operator overloading implementation
 bool Event::operator==(const Event& otherEvent) const {
 	return Event::name == otherEvent.name;
+}
+
+// output operator overloading
+std::ostream& operator<<(std::ostream& out, const Event& event) {
+	out << "Event Name: " << event.name << "\n"
+	 << "Description: " << event.description << "\n"
+	 << "Rating: " << event.rating << "\n"
+	 << "Tickets Sold: " << event.soldTicketsCount << endl;
+	return out;
+}
+
+// input operator overloading
+std::istream& operator>>(std::istream& in, Event& event) {
+	cout << "Enter new name: ";
+	in >> event.name;
+	cout << "Enter new description: ";
+	in >> event.description;
+	cout << "Enter new rating: ";
+	in >> event.rating;
+	cout << "Enter new ticket sold count: ";
+	in >> event.soldTicketsCount;
+	return in;
 }
 
 

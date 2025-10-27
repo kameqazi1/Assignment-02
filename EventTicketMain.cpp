@@ -1,5 +1,6 @@
 #include <iostream> 
 #include <string>
+#include <memory>
 
 
 // TO DO: #include any other libraries you need
@@ -56,7 +57,12 @@ void displayOrganizerMenu(Organizer& organizer){
 					<< "1. Virtual Event \n"
 					<< "2. Venue Event \n"
 					<< "Choice: ";
-				cin >> eventChoice;
+				
+				while (!(cin >> eventChoice)) {        // try to read a number
+					cout << "Invalid input. Please enter an integer: ";
+					cin.clear();                  // clear the error flag
+					cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
+				}
 				cout << endl;
 				switch(eventChoice) {
 					case 1: {
@@ -82,16 +88,9 @@ void displayOrganizerMenu(Organizer& organizer){
 						getline(cin, streamLink);
 						cout << "Enter new audience: ";
 						getline(cin, audience);
-						Event* virtualEPtr = new VirtualEvent(name, description, rating, soldTicketsCount, streamLink, audience);
+						std::shared_ptr<Event> virtualEPtr = std::make_shared<VirtualEvent>(name, description, rating, soldTicketsCount, streamLink, audience);
 
-						cout << "Where would you like to enter this Event: ";
-						while (!(cin >> k)) {        // try to read a number
-							cout << "Invalid input. Please enter a number Rating: ";
-							cin.clear();                  // clear the error flag
-							cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
-						}
-
-						organizer.reverseAppendEventK(virtualEPtr, k);
+						organizer.createEvent(virtualEPtr);
 						break;
 					}
 					case 2: {
@@ -128,26 +127,18 @@ void displayOrganizerMenu(Organizer& organizer){
 						cout << "Date and Time: ";
 						getline(cin, dateTime);
 
-						Event* venueEPtr = new VenueEvent(name, description, rating, soldTicketsCount, capacity, venue, dateTime);
+						std::shared_ptr<Event> venueEPtr = std::make_shared<VenueEvent>(name, description, rating, soldTicketsCount, capacity, venue, dateTime);
 
-						cout << "Where would you like to enter this Event: ";
-						while (!(cin >> k)) {        // try to read a number
-							cout << "Invalid input. Please enter a number Rating: ";
-							cin.clear();                  // clear the error flag
-							cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
-						}
-
-						organizer.reverseAppendEventK(venueEPtr, k);
+						organizer.createEvent(venueEPtr);
 						break;
 					}
 					default: {
-						cout << "Invalid choice";
+						cout << "Invalid choice, exiting to menu." << endl;
 
 						break;
 					}
 				}
-
-
+				
 				break;
 			}
 			case 4:{ //Display All Events
@@ -250,7 +241,7 @@ void displayOrganizerMenu(Organizer& organizer){
 					getline(cin, streamLink);
 					cout << "Enter new audience: ";
 					getline(cin, audience);
-					Event* virtualEPtr = new VirtualEvent(name, description, rating, soldTicketsCount, streamLink, audience);
+					std::shared_ptr<Event> virtualEPtr = std::make_shared<VirtualEvent>(name, description, rating, soldTicketsCount, streamLink, audience);
 
 					organizer.reverseAppendEventK(virtualEPtr, k);
 					break;
@@ -289,7 +280,7 @@ void displayOrganizerMenu(Organizer& organizer){
 					cout << "Date and Time: ";
 					getline(cin, dateTime);
 
-					Event* venueEPtr = new VenueEvent(name, description, rating, soldTicketsCount, capacity, venue, dateTime);
+					std::shared_ptr<Event> venueEPtr = std::make_shared<VenueEvent>(name, description, rating, soldTicketsCount, capacity, venue, dateTime);
 
 					organizer.reverseAppendEventK(venueEPtr, k);
 					break;
@@ -319,7 +310,7 @@ int main() {
 	// With this implementation, the application will only have one organizer
 	EventTicket340 eventTicket340;
 
-	cout << "\n Welcome to EventTicket340:" << endl;
+	cout << "\n" << eventTicket340 << endl;
 	// TO DO: Ask the organizer to enter their information 
 	//        Instantiate a new Organizer object
 

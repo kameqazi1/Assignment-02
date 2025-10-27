@@ -14,26 +14,42 @@ EventTicket340::~EventTicket340(){
     organizer.getEvents().clear();
 }
 
+// Copy constructor
+EventTicket340::EventTicket340(const EventTicket340& other)
+	: organizer(other.organizer),
+	  username(other.username),
+	  email(other.email),
+	  password(other.password),
+	  bio(other.bio),
+	  profilePicture(other.profilePicture)
+{}
+
+// Assignment operator
+EventTicket340& EventTicket340::operator=(const EventTicket340& other){
+	if(this != &other){
+			organizer = other.organizer;
+			username = other.username;
+			email = other.email;
+			password = other.password;
+			bio = other.bio;
+			profilePicture = other.profilePicture;
+		}	
+	return *this;
+}
+
 void EventTicket340::createOrganizer(){
 	// TO DO: implement function
-    string uname, mail, pw, b, pic;
-
-    cout << "Please enter a username: ";
-    getline(cin, uname);
-    cout << "Please enter your email: ";
-    getline(cin, mail);
-    cout << "Please enter your password (num only): ";
-    getline(cin, pw);
-    cout << "Please enter a bio: ";
-    getline(cin, b);
-    cout << "Please enter a link to your profile picture: ";
-    getline(cin, pic);
-
-    organizer =  Organizer(uname, mail, pw, b, pic);
+	cin >> organizer;
 }
 
 Organizer EventTicket340::getOrganizer() const{
 	// TO DO: implement function
     return organizer;
 
+}
+
+// output overloading
+std::ostream& operator<<(std::ostream& out, const EventTicket340& ticket) {
+	out << " Welcome to EventTicket340:";
+	return out;
 }

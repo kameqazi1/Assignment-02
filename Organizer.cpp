@@ -13,8 +13,7 @@ Organizer::Organizer(const std::string& username, const std::string& email, cons
 	username(username), email(email), password(password), bio(bio), profilePicture(profilePicture) {
 }
 
-Organizer::~Organizer() {
-}
+Organizer::~Organizer() = default;
 
 bool Organizer::modifyPassword(const std::string& newPassword){
 	password = newPassword;
@@ -23,21 +22,18 @@ bool Organizer::modifyPassword(const std::string& newPassword){
 }
 
 void Organizer::displayProfile() {
-	cout << "Username: " << username << endl;
-	cout << "Email: " << email << endl;
-	cout << "Bio: " << bio << endl;
-	cout << "Picture: " << profilePicture << endl;
+	cout << *this;
 }
 
-bool Organizer::createEvent( Event* event){
+bool Organizer::createEvent( std::shared_ptr<Event> event){
 	return events.add(event);
 }
 
 void Organizer::displayEventK(const int& k) const {
-	Node<Event*>* nodePtr = events.findKthItem(k);
+	Node<std::shared_ptr<Event>>* nodePtr = events.findKthItem(k);
 
 	if (nodePtr != nullptr) {
-		Event* e = nodePtr->getItem();  // getItem() returns Event*
+		std::shared_ptr<Event> e = nodePtr->getItem();  // getItem() returns Event*
 		if (e != nullptr) {
 			e->display();               // use -> since e is a pointer
 		}
@@ -54,12 +50,12 @@ void Organizer::displayEventK(const int& k) const {
 }
 
 void Organizer::displayAllEvents() const {
-	vector<Event*> items = events.toVector();  // vector of pointers
+	vector<std::shared_ptr<Event>> items = events.toVector();  // vector of pointers
 	int counter = 0;
 
 	cout << "Event List:\n" << endl;
 
-	for (const Event* item : items) {          // each item is a pointer
+	for (const auto& item : items) {          // each item is a pointer
 		if (item != nullptr) {
 			cout << "Event #" << counter << ":\n";
 			item->display();                   // use -> since it's a pointer
@@ -73,9 +69,9 @@ void Organizer::displayAllEvents() const {
 }
 
 bool Organizer::modifyEvent(const int& k) {
-	Node<Event*>* nodePtr = events.findKthItem(k);
+	Node<std::shared_ptr<Event>>* nodePtr = events.findKthItem(k);
 	if (nodePtr != nullptr) {
-		Event* e = nodePtr->getItem();   // get pointer to original event
+		std::shared_ptr<Event> e = nodePtr->getItem();   // get pointer to original event
 		if (e != nullptr) {
 			e->modify();                 // modify the actual event
 			cout << "Successfully modified event" << endl;
@@ -97,9 +93,9 @@ bool Organizer::modifyEvent(const int& k) {
 }
 
 bool Organizer::sellTicket(const int& k, const int& quantity) {
-	Node<Event*>* nodePtr = events.findKthItem(k);
+	Node<std::shared_ptr<Event>>* nodePtr = events.findKthItem(k);
 	if (nodePtr != nullptr) {
-		Event* e = nodePtr->getItem(); // copy
+		std::shared_ptr<Event> e = nodePtr->getItem(); // copy
 		e->sell(quantity);                    // modify copy
 		nodePtr->setItem(e);
 	}
@@ -112,7 +108,7 @@ bool Organizer::sellTicket(const int& k, const int& quantity) {
 }
 
 bool Organizer::deleteEvent(const int& k) {
-	Node<Event*>* nodePtr = events.findKthItem(k);
+	Node<std::shared_ptr<Event>>* nodePtr = events.findKthItem(k);
 	if (nodePtr != nullptr) {
 		events.remove(nodePtr->getItem()); // remove event
 		cout << "Successfully removed event." << endl;
@@ -125,8 +121,8 @@ bool Organizer::deleteEvent(const int& k) {
 	return nodePtr != nullptr;
 };
 
-bool Organizer::reverseAppendEventK(Event* newEvent, const int& k) {
-	if (events.reverseAppendK(newEvent, k)) {    // calls LinkedBag’s function
+bool Organizer::reverseAppendEventK(std::shared_ptr<Event> newEvent, const int& k) {
+	if (events.reverseAppendK(newEvent, k)) {    // calls LinkedBagï¿½s function
 		cout << "Successfully inserted event after " << k << "th-from-end.\n";
 		return true;
 	}
@@ -145,7 +141,7 @@ bool Organizer::operator==(const Organizer& otherOrganizer) const {
 
 //Getters
 
-LinkedBag<Event*> Organizer::getEvents() {
+LinkedBag<std::shared_ptr<Event>> Organizer::getEvents() {
 	return events;
 }
 
@@ -158,4 +154,57 @@ std::string Organizer::getUsername() {
 }
 Organizer Organizer::getOrganizer() {
 	return *(this);
+}
+
+// output overloading
+std::ostream& operator<<(std::ostream& out, const Organizer& organizer) {
+	out << "Username: " << organizer.username << endl;
+	out << "Email: " << organizer.email << endl;
+	out << "Bio: " << organizer.bio << endl;
+	out << "Picture: " << organizer.profilePicture << endl;
+	return out;
+}
+
+// input overloading
+std::istream& operator>>(std::istream& in, Organizer& organizer) {
+	cout << "Please enter a username: ";
+	getline(in, organizer.username);
+	cout << "Please enter your email: ";
+	getline(in, organizer.email);
+	cout << "Please enter your password (num only): ";
+	getline(in, organizer.password);
+	cout << "Please enter a bio: ";
+	getline(in, organizer.bio);
+	cout << "Please enter a link to your profile picture: ";
+	getline(in, organizer.profilePicture);
+	return in;
+}
+
+// Copy constructor (deep copy)
+Organizer::Organizer(const Organizer& other)
+    : username(other.username),
+      email(other.email),
+      password(other.password),
+      bio(other.bio),
+      profilePicture(other.profilePicture)
+{
+    for (auto& e : other.events.toVector()) {
+        events.add(std::make_shared<Event>(*e)); 
+    }
+}
+
+// Assignment operator (deep copy)
+Organizer& Organizer::operator=(const Organizer& other) {
+    if (this != &other) {
+        username = other.username;
+        email = other.email;
+        password = other.password;
+        bio = other.bio;
+        profilePicture = other.profilePicture;
+        events.clear();
+        for (auto& e : other.events.toVector()) {
+            events.add(std::make_shared<Event>(*e));
+        }
+    }
+    return *this;
 }

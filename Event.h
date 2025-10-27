@@ -3,6 +3,7 @@
 
 // TO DO: #include all the standard libraries and your own libraries here
 #include <string>
+#include <iostream>
 
 // To DO: define the class Organizer with the necessary functions and data fields
 
@@ -19,6 +20,8 @@ public:
 	Event();
 	Event(std::string& name, std::string& description, int& rating, int& soldTicketsCount);
 	~Event();
+    Event(const Event& other);
+    Event& operator=(const Event& other);
 
 	virtual void display() const;
 	
@@ -31,6 +34,10 @@ public:
 	// You don't need to modify it but will have to put it inside your class. 
 	// Operator == overloading function prototype:
 	bool operator==(const Event& otherEvent) const;
+
+	// functions for operator overloading
+	friend std::ostream& operator<<(std::ostream& out, const Event& event);
+	friend std::istream& operator>>(std::istream& in, Event& event);
 };
 
 #endif

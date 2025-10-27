@@ -41,6 +41,8 @@ public:
 	int getFrequencyOf(const ItemType& anEntry) const;
 	std::vector<ItemType> toVector() const;
 
+	//Assignment operator extra credit
+	LinkedBag<ItemType>& operator=(const LinkedBag<ItemType>& aBag);
 
 
 }; // end LinkedBag
